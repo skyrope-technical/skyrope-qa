@@ -18,3 +18,4 @@ public/uploads/*.html
 public/uploads/index*.html
 public/uploads/pasted-*
 public/uploads/draw-*
+public/.writetest
