@@ -1,13 +1,8 @@
 name = "skyrope-qa"
 compatibility_date = "2024-11-01"
-pages_build_output_dir = "."
 
-# D1 binding — the contact form Function reads env.DB
-# (You can also set this in the Cloudflare dashboard → Pages → Settings → Functions.)
-[[d1_databases]]
-binding = "DB"
-database_name = "skyrope-qa"
-database_id = "bbfaef68-7c53-4120-b165-fac25e6cb6f1"
-
-# RESEND_API_KEY is a secret — set it in the dashboard (Settings → Environment variables,
-# encrypted) or via `npx wrangler pages secret put RESEND_API_KEY`. Never commit it.
+# Static-only site. Submissions go to Zoho CRM Web-to-Lead (see index.html),
+# so there is no Worker script, no D1, and no Resend. Cloudflare just serves
+# the files in ./public over its CDN with automatic SSL.
+[assets]
+directory = "./public"

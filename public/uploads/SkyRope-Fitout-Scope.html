@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sky Rope — Fit-Out & Building Maintenance | Scope of Work</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+/* ═══════════════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --teal:       #009a8e;
+  --teal-dk:    #007a70;
+  --teal-glow:  rgba(0,154,142,0.14);
+  --teal-bdr:   rgba(0,154,142,0.30);
+  --dark:       #1a1a1a;
+  --dark2:      #272627;
+  --card-bg:    rgba(255,255,255,0.045);
+  --white:      #ffffff;
+  --muted:      #a8b2bd;
+  --fd: 'Barlow Condensed', sans-serif;
+  --fb: 'Inter', sans-serif;
+  --fa: 'Space Grotesk', sans-serif;
+}
+
+html { background: #111; }
+body { background: #111; font-family: var(--fb); }
+
+/* ═══════════════════════════════════════════════
+   PRINT BUTTON (screen only)
+═══════════════════════════════════════════════ */
+#print-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 28px;
+  font-family: var(--fa);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 28px rgba(0,154,142,0.45);
+  transition: background 0.2s;
+}
+#print-btn:hover { background: var(--teal-dk); }
+
+/* ═══════════════════════════════════════════════
+   PAGE WRAPPER
+═══════════════════════════════════════════════ */
+.page {
+  width: 297mm;
+  min-height: 210mm;
+  margin: 0 auto 12px;
+  background: var(--dark);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 56px 72px 52px;
+  page-break-after: always;
+  break-after: page;
+}
+.page:last-of-type { page-break-after: auto; break-after: auto; }
+
+/* ── DOT BG ─ */
+.dot-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0,154,142,0.10) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+/* ── TEAL ACCENT BAR (left edge) ── */
+.accent-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: var(--teal);
+}
+
+/* ── TOP GRADIENT LINE ── */
+.top-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--teal-dk));
+}
+
+/* ═══════════════════════════════════════════════
+   TYPOGRAPHY HELPERS
+═══════════════════════════════════════════════ */
+.lbl {
+  font-family: var(--fa);
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  color: var(--teal);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.lbl::before {
+  content: '';
+  display: block;
+  width: 26px; height: 2px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+.lbl-c {
+  font-family: var(--fa);
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  color: var(--teal);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.stitle {
+  font-family: var(--fd);
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.0;
+  color: var(--white);
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+.teal { color: var(--teal); }
+.muted { color: var(--muted); }
+
+/* ═══════════════════════════════════════════════
+   CARDS & COMPONENTS
+═══════════════════════════════════════════════ */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--teal-bdr);
+  border-radius: 8px;
+  padding: 22px 20px;
+}
+.ibox {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  background: var(--teal-glow);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+.chk {
+  display: flex; align-items: flex-start; gap: 14px;
+  font-size: 14px; font-weight: 500; color: var(--white);
+  line-height: 1.5;
+}
+.chk-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--teal-glow);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.chk-dot i { color: var(--teal); font-size: 11px; }
+.pill {
+  background: var(--teal-glow);
+  border: 1px solid var(--teal-bdr);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--white);
+  white-space: nowrap;
+  font-family: var(--fa);
+}
+
+/* Service cards */
+.svc-card {
+  background: var(--card-bg);
+  border: 1px solid var(--teal-bdr);
+  border-radius: 8px;
+  padding: 16px 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.svc-card .svc-icon {
+  width: 38px; height: 38px; border-radius: 9px;
+  background: var(--teal-glow); color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0; margin-top: 2px;
+}
+.svc-card h3 {
+  font-family: var(--fd);
+  font-size: 20px; font-weight: 600;
+  color: var(--white); line-height: 1.15; margin-bottom: 3px;
+}
+.svc-card p { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+/* Why cards */
+.why-card {
+  background: var(--card-bg);
+  border: 1px solid var(--teal-bdr);
+  border-radius: 8px;
+  padding: 22px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.why-card h3 {
+  font-family: var(--fd);
+  font-size: 24px; font-weight: 700;
+  color: var(--white); line-height: 1.15;
+}
+.why-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* ═══════════════════════════════════════════════
+   IMAGE PLACEHOLDER (CLICK TO ADD)
+═══════════════════════════════════════════════ */
+.img-zone {
+  border: 2px dashed var(--teal-bdr);
+  border-radius: 8px;
+  background: rgba(0,154,142,0.04);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+}
+.img-zone:hover {
+  border-color: var(--teal);
+  background: rgba(0,154,142,0.08);
+}
+.img-zone .img-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  pointer-events: none;
+}
+.img-zone .img-placeholder i {
+  font-size: 32px; color: var(--teal); opacity: 0.6;
+}
+.img-zone .img-placeholder span {
+  font-family: var(--fa); font-size: 12px;
+  color: var(--muted); letter-spacing: 1px; text-transform: uppercase;
+}
+.img-zone img.preview {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  border-radius: 6px;
+}
+.img-zone .img-remove {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(0,0,0,0.7); color: #fff;
+  border: none; border-radius: 50%;
+  width: 26px; height: 26px;
+  font-size: 12px; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  z-index: 10;
+}
+.img-zone:hover .img-remove { display: flex; }
+.img-file-input { display: none; }
+
+/* ═══════════════════════════════════════════════
+   FOOTER BAR
+═══════════════════════════════════════════════ */
+.slide-footer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  border-top: 1px solid var(--teal-bdr);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 72px;
+  background: rgba(26,26,26,0.92);
+  backdrop-filter: blur(8px);
+}
+.slide-footer .brand {
+  font-family: var(--fd);
+  font-size: 16px; font-weight: 700;
+  color: var(--teal); letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.slide-footer .pg {
+  font-family: var(--fa); font-size: 11px;
+  color: var(--muted); letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════════
+   PRINT STYLES
+═══════════════════════════════════════════════ */
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  html, body { background: #1a1a1a !important; }
+  #print-btn { display: none !important; }
+  .page {
+    width: 297mm;
+    min-height: 210mm;
+    max-height: 210mm;
+    margin: 0 !important;
+    padding: 48px 64px 50px;
+    page-break-after: always;
+    break-after: page;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .img-zone .img-remove { display: none !important; }
+  .img-zone { cursor: default; }
+}
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON -->
+<button id="print-btn" onclick="window.print()">
+  <i class="fa-solid fa-print"></i> Print / Save PDF
+</button>
+
+<!-- Hidden file inputs (one per image zone, injected by JS) -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 1 — COVER
+════════════════════════════════════════════════════════════ -->
+<div class="page" style="padding:0;min-height:210mm;">
+  <div style="width:100%;height:100%;display:flex;flex-direction:column;position:relative;min-height:210mm;">
+
+    <!-- Background image zone -->
+    <div class="img-zone" style="position:absolute;inset:0;border:none;border-radius:0;min-height:unset;"
+         data-zone="cover-bg" onclick="triggerUpload(this)">
+      <div class="img-placeholder">
+        <i class="fa-solid fa-image"></i>
+        <span>Click to add cover background image</span>
+      </div>
+    </div>
+
+    <!-- Gradient overlay -->
+    <div style="position:absolute;inset:0;background:linear-gradient(108deg,rgba(26,26,26,0.95) 46%,rgba(0,154,142,0.20) 100%);z-index:1;pointer-events:none;"></div>
+    <!-- Dot grid -->
+    <div class="dot-bg" style="opacity:0.45;z-index:2;"></div>
+    <!-- Left teal bar -->
+    <div style="position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--teal);z-index:4;"></div>
+
+    <!-- Main content -->
+    <div style="position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;padding:64px 80px 160px;">
+      <!-- Badge -->
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(0,154,142,0.12);border:1px solid var(--teal-bdr);border-radius:100px;padding:8px 20px;margin-bottom:30px;width:fit-content;">
+        <i class="fa-solid fa-certificate" style="color:var(--teal);font-size:13px;"></i>
+        <span style="font-family:var(--fa);font-size:12px;letter-spacing:1.5px;color:var(--teal);text-transform:uppercase;">ISO 9001:2015 Certified &nbsp;·&nbsp; UAE Licensed &nbsp;·&nbsp; Dubai Municipality Approved</span>
+      </div>
+      <!-- Headline -->
+      <h1 style="font-family:var(--fd);font-weight:800;font-size:96px;line-height:0.9;letter-spacing:-0.025em;color:var(--white);margin-bottom:24px;">
+        FIT-OUT &amp;<br><span style="color:var(--teal);">BUILDING MAINTENANCE</span>
+      </h1>
+      <!-- Subtext -->
+      <p style="font-size:18px;color:var(--muted);line-height:1.6;max-width:580px;font-family:var(--fb);">
+        Scope of Work — Customer Presentation<br>
+        <span style="color:var(--white);font-weight:500;">Sky Rope Technical Services</span> &nbsp;·&nbsp; Dubai, UAE
+      </p>
+    </div>
+
+    <!-- Stats bar -->
+    <div style="position:relative;z-index:3;background:rgba(20,20,20,0.94);backdrop-filter:blur(14px);border-top:1px solid var(--teal-bdr);">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);padding:20px 80px;">
+        <div style="text-align:center;">
+          <div style="font-family:var(--fd);font-size:42px;font-weight:800;color:var(--teal);line-height:1;">5+</div>
+          <div style="font-family:var(--fa);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;">Years Expertise</div>
+        </div>
+        <div style="text-align:center;border-left:1px solid rgba(255,255,255,0.07);">
+          <div style="font-family:var(--fd);font-size:42px;font-weight:800;color:var(--teal);line-height:1;">ISO</div>
+          <div style="font-family:var(--fa);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;">9001:2015 Certified</div>
+        </div>
+        <div style="text-align:center;border-left:1px solid rgba(255,255,255,0.07);">
+          <div style="font-family:var(--fd);font-size:42px;font-weight:800;color:var(--teal);line-height:1;">UAE</div>
+          <div style="font-family:var(--fa);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;">Licensed &amp; Approved</div>
+        </div>
+        <div style="text-align:center;border-left:1px solid rgba(255,255,255,0.07);">
+          <div style="font-family:var(--fd);font-size:42px;font-weight:800;color:var(--teal);line-height:1;">QHSE</div>
+          <div style="font-family:var(--fa);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;">Policy Compliant</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 2 — SCOPE OF WORK (SERVICES)
+════════════════════════════════════════════════════════════ -->
+<div class="page" style="background:var(--dark2);">
+  <div class="dot-bg" style="opacity:0.45;"></div>
+  <div class="top-line"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;flex:1;padding-bottom:48px;">
+
+    <div class="lbl">What We Do</div>
+    <h2 class="stitle" style="margin-bottom:18px;">Our <span class="teal">Scope of Work</span></h2>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:10px;flex:1;">
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-hammer"></i></div>
+        <div><h3>Fit-out &amp; Renovation</h3><p>Complete commercial, residential &amp; industrial interior fit-out</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-building"></i></div>
+        <div><h3>Building Maintenance</h3><p>Planned and reactive building maintenance services</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-binoculars"></i></div>
+        <div><h3>Facade Inspection &amp; Maintenance</h3><p>Facade survey, condition assessment &amp; upkeep</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-window-maximize"></i></div>
+        <div><h3>Glass Installation &amp; Replacement</h3><p>Precision glass panel installation &amp; replacement works</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <div><h3>Aluminum Cladding</h3><p>Cladding installation, panel replacement &amp; maintenance</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-border-all"></i></div>
+        <div><h3>Gypsum &amp; Ceiling Works</h3><p>False ceilings, gypsum board &amp; light partition installations</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-chess-board"></i></div>
+        <div><h3>Floor &amp; Wall Tiling</h3><p>Floor and wall tile installation across all project types</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-droplet-slash"></i></div>
+        <div><h3>Water Proofing</h3><p>Waterproofing systems for roofs, wet areas &amp; basements</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-trowel-bricks"></i></div>
+        <div><h3>Plastering &amp; Masonry</h3><p>Internal and external plastering, rendering &amp; blockwork</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-door-open"></i></div>
+        <div><h3>Door Installation &amp; Maintenance</h3><p>Timber, aluminium &amp; fire door supply, fit &amp; service</p></div>
+      </div>
+
+      <div class="svc-card">
+        <div class="svc-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+        <div><h3>Carpentry Works</h3><p>Custom joinery, furniture fit-out &amp; carpentry finishes</p></div>
+      </div>
+
+      <!-- Authority approvals cell -->
+      <div class="svc-card" style="background:rgba(0,154,142,0.08);border-color:var(--teal);">
+        <div class="svc-icon" style="background:rgba(0,154,142,0.25);"><i class="fa-solid fa-stamp"></i></div>
+        <div>
+          <h3 style="color:var(--teal);">Authority Approvals</h3>
+          <p style="color:rgba(168,178,189,0.9);">DM · DCD · DDA · Trakhees · DSO/DIEZ &amp; master communities</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span class="brand">Sky Rope Technical Services</span>
+    <span class="pg">Scope of Work · 02</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 3 — PROJECT IMAGES
+════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="dot-bg" style="opacity:0.4;"></div>
+  <div class="accent-bar"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;flex:1;padding-bottom:48px;">
+
+    <div class="lbl">Our Work</div>
+    <h2 class="stitle" style="margin-bottom:20px;">Project <span class="teal">Gallery</span></h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;flex:1;">
+
+      <div class="img-zone" style="grid-column:1;grid-row:1 / span 2;" data-zone="gallery-1" onclick="triggerUpload(this)">
+        <div class="img-placeholder">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Image</span>
+        </div>
+      </div>
+
+      <div class="img-zone" data-zone="gallery-2" onclick="triggerUpload(this)">
+        <div class="img-placeholder">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Image</span>
+        </div>
+      </div>
+
+      <div class="img-zone" data-zone="gallery-3" onclick="triggerUpload(this)">
+        <div class="img-placeholder">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Image</span>
+        </div>
+      </div>
+
+      <div class="img-zone" data-zone="gallery-4" onclick="triggerUpload(this)">
+        <div class="img-placeholder">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Image</span>
+        </div>
+      </div>
+
+      <div class="img-zone" data-zone="gallery-5" onclick="triggerUpload(this)">
+        <div class="img-placeholder">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add Image</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span class="brand">Sky Rope Technical Services</span>
+    <span class="pg">Project Gallery · 03</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 4 — WHY CHOOSE US
+════════════════════════════════════════════════════════════ -->
+<div class="page" style="background:var(--dark2);">
+  <div class="dot-bg" style="opacity:0.5;"></div>
+  <div class="top-line"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;flex:1;padding-bottom:48px;">
+
+    <div class="lbl">Our Advantage</div>
+    <h2 class="stitle" style="margin-bottom:20px;">Why Clients <span class="teal">Choose Sky Rope</span></h2>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;flex:1;">
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-star"></i></div>
+        <h3>5+ Years of Proven Expertise</h3>
+        <p>A team of skilled professionals delivering consistent quality across commercial, residential, and industrial projects throughout the UAE.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-stamp"></i></div>
+        <h3>Authority Approvals Handled</h3>
+        <p>We manage all necessary approvals from DM, DCD, DDA, Trakhees, DSO/DIEZ and master community authorities — seamlessly and compliantly.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-certificate"></i></div>
+        <h3>ISO 9001:2015 Certified</h3>
+        <p>Quality Management System audited and certified by Quality Registrar Systems, ensuring compliance with international quality standards.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-scale-balanced"></i></div>
+        <h3>Regulatory Compliance</h3>
+        <p>Strictly following UAE Federal laws, Dubai Municipality regulations and international standards for timely, budget-friendly project delivery.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-arrows-to-dot"></i></div>
+        <h3>Comprehensive Solutions</h3>
+        <p>From end-to-end interior fit-out to facade maintenance — a single trusted partner for spaces that inspire, endure and stand the test of time.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-microchip"></i></div>
+        <h3>Innovative Solutions</h3>
+        <p>State-of-the-art equipment and modern methodologies for precision execution on every project, regardless of scale or complexity.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Safety &amp; Compliance</h3>
+        <p>Full adherence to international safety standards and best practices. Every job includes a site-specific risk assessment and SWMS.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="ibox"><i class="fa-solid fa-user-tie"></i></div>
+        <h3>Customer-Centric Approach</h3>
+        <p>Tailored services aligned to each client's unique requirements and vision, with dedicated project management from start to finish.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <span class="brand">Sky Rope Technical Services</span>
+    <span class="pg">Why Choose Us · 04</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 5 — CERTIFICATION & QHSE
+════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="dot-bg" style="opacity:0.4;"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,154,142,0.12) 0%,transparent 55%);pointer-events:none;z-index:0;"></div>
+  <div class="accent-bar"></div>
+
+  <div style="position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:56px;flex:1;align-items:start;padding-bottom:48px;">
+
+    <!-- LEFT: Certification -->
+    <div>
+      <div class="lbl">Our Accreditation</div>
+      <h2 style="font-family:var(--fd);font-size:52px;font-weight:700;line-height:1.0;color:var(--white);margin-bottom:22px;">Quality You Can <span style="color:var(--teal);">Trust.</span></h2>
+      <p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:26px;">Our Quality Management System has been independently audited and certified, ensuring every project we deliver meets internationally recognised standards of quality, consistency and continuous improvement.</p>
+
+      <!-- ISO Cert card -->
+      <div style="background:rgba(0,154,142,0.10);border:2px solid var(--teal);border-radius:10px;padding:26px 24px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;">
+          <div style="width:48px;height:48px;border-radius:12px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="fa-solid fa-medal" style="color:white;font-size:20px;"></i>
+          </div>
+          <div>
+            <div style="font-family:var(--fd);font-size:30px;font-weight:800;color:var(--white);line-height:1;">ISO 9001:2015</div>
+            <div style="font-family:var(--fa);font-size:11px;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;">Quality Management Systems</div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.55;">Certified by Quality Registrar Systems (QRS) — confirming our management system meets the QRS &amp; ISO standard requirements across all services including fit-out, building maintenance, facade works, cladding, MEP finishing, and civil works.</p>
+      </div>
+
+      <!-- Scope tags -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span class="pill">Fit-out Works</span>
+        <span class="pill">Building Maintenance</span>
+        <span class="pill">Glass &amp; Aluminum</span>
+        <span class="pill">Cladding</span>
+        <span class="pill">Floor &amp; Wall Tiling</span>
+        <span class="pill">Plastering</span>
+        <span class="pill">Carpentry</span>
+        <span class="pill">Waterproofing</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: QHSE Policy -->
+    <div>
+      <div class="lbl">Health, Safety &amp; Environment</div>
+      <h2 style="font-family:var(--fd);font-size:52px;font-weight:700;line-height:1.0;color:var(--white);margin-bottom:22px;">Our <span style="color:var(--teal);">QHSE Policy.</span></h2>
+
+      <p style="font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:22px;">Sky Rope Technical Services is committed to maintaining the highest standards of Quality, Health, Safety and Environment (QHSE) across all operations — protecting the wellbeing of our employees, clients, visitors and the communities in which we work.</p>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Services consistently meet client needs and quality expectations</span>
+        </div>
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Integrated management system conforming to ISO 9001:2015</span>
+        </div>
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Regular QHSE performance reviews against identified objectives</span>
+        </div>
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Hazard identification and risk mitigation on every site</span>
+        </div>
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Compliance with all UAE Quality, Environmental &amp; Safety regulations</span>
+        </div>
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Environmental responsibility — waste reduction and sustainable practices</span>
+        </div>
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Accident prevention and continuous improvement of QHSE systems</span>
+        </div>
+        <div class="chk">
+          <div class="chk-dot"><i class="fa-solid fa-check"></i></div>
+          <span>Ongoing employee training and open communication at all levels</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="slide-footer">
+    <span class="brand">Sky Rope Technical Services</span>
+    <span class="pg">Certification &amp; QHSE · 05</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 6 — CONTACT / CLOSING
+════════════════════════════════════════════════════════════ -->
+<div class="page" style="padding:0;min-height:210mm;">
+  <div style="width:100%;height:100%;display:flex;position:relative;min-height:210mm;">
+
+    <!-- BG image zone -->
+    <div class="img-zone" style="position:absolute;inset:0;border:none;border-radius:0;min-height:unset;"
+         data-zone="closing-bg" onclick="triggerUpload(this)">
+      <div class="img-placeholder">
+        <i class="fa-solid fa-image"></i>
+        <span>Click to add closing background image</span>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div style="position:absolute;inset:0;background:linear-gradient(108deg,rgba(26,26,26,0.97) 50%,rgba(0,154,142,0.18) 100%);z-index:1;pointer-events:none;"></div>
+    <div class="dot-bg" style="opacity:0.35;z-index:2;"></div>
+    <div style="position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--teal);z-index:4;"></div>
+
+    <div style="position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;width:100%;padding:64px 80px;">
+      <div style="font-family:var(--fa);font-size:12px;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px;">
+        <span style="display:block;width:26px;height:2px;background:var(--teal);"></span>Get In Touch
+      </div>
+
+      <h1 style="font-family:var(--fd);font-weight:800;font-size:88px;line-height:0.9;letter-spacing:-0.02em;color:var(--white);margin-bottom:32px;">
+        LET'S BUILD<br><span style="color:var(--teal);">SOMETHING</span><br>GREAT.
+      </h1>
+
+      <p style="font-size:16px;color:var(--muted);line-height:1.65;max-width:520px;margin-bottom:40px;">
+        Ready to discuss your fit-out or building maintenance requirements? Our team is available to assess your project and provide a tailored proposal.
+      </p>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="ibox"><i class="fa-solid fa-phone"></i></div>
+          <span style="font-family:var(--fa);font-size:16px;color:var(--white);">+971 4 XXX XXXX</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="ibox"><i class="fa-solid fa-envelope"></i></div>
+          <span style="font-family:var(--fa);font-size:16px;color:var(--white);">info@skyrope.ae</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="ibox"><i class="fa-solid fa-globe"></i></div>
+          <span style="font-family:var(--fa);font-size:16px;color:var(--white);">www.skyrope.ae</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div class="ibox"><i class="fa-solid fa-location-dot"></i></div>
+          <span style="font-family:var(--fa);font-size:16px;color:var(--white);">Dubai, UAE — Serving All Emirates</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT — IMAGE UPLOAD & PREVIEW
+════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  // Build a hidden file input for every image zone
+  document.querySelectorAll('.img-zone').forEach(function (zone) {
+    var zoneId = zone.getAttribute('data-zone');
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.className = 'img-file-input';
+    input.setAttribute('data-for', zoneId);
+    document.body.appendChild(input);
+
+    // Remove button
+    var btn = document.createElement('button');
+    btn.className = 'img-remove';
+    btn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    btn.title = 'Remove image';
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      removeImage(zone, input);
+    });
+    zone.appendChild(btn);
+
+    input.addEventListener('change', function () {
+      if (!input.files || !input.files[0]) return;
+      var reader = new FileReader();
+      reader.onload = function (ev) {
+        setImage(zone, ev.target.result);
+      };
+      reader.readAsDataURL(input.files[0]);
+    });
+  });
+
+  window.triggerUpload = function (zone) {
+    var zoneId = zone.getAttribute('data-zone');
+    var input = document.querySelector('.img-file-input[data-for="' + zoneId + '"]');
+    if (input) input.click();
+  };
+
+  function setImage(zone, src) {
+    // Remove existing preview
+    var old = zone.querySelector('img.preview');
+    if (old) old.remove();
+    // Hide placeholder
+    var ph = zone.querySelector('.img-placeholder');
+    if (ph) ph.style.display = 'none';
+    // Add preview image
+    var img = document.createElement('img');
+    img.className = 'preview';
+    img.src = src;
+    zone.insertBefore(img, zone.firstChild);
+    // Show remove button
+    var btn = zone.querySelector('.img-remove');
+    if (btn) btn.style.display = 'flex';
+  }
+
+  function removeImage(zone, input) {
+    var img = zone.querySelector('img.preview');
+    if (img) img.remove();
+    var ph = zone.querySelector('.img-placeholder');
+    if (ph) ph.style.display = '';
+    var btn = zone.querySelector('.img-remove');
+    if (btn) btn.style.display = 'none';
+    input.value = '';
+  }
+})();
+</script>
+
+</body>
+</html>
