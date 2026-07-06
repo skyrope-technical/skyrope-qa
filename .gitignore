@@ -1,0 +1,16 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Node / Wrangler local state
+node_modules/
+.wrangler/
+.dev.vars
+.env
+
+# Stray/internal files that must NOT be published
+uploads/*.html
+uploads/index*.html
+uploads/pasted-*
+uploads/draw-*

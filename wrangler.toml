@@ -1,0 +1,13 @@
+name = "skyrope-qa"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "."
+
+# D1 binding — the contact form Function reads env.DB
+# (You can also set this in the Cloudflare dashboard → Pages → Settings → Functions.)
+[[d1_databases]]
+binding = "DB"
+database_name = "skyrope-qa"
+database_id = "bbfaef68-7c53-4120-b165-fac25e6cb6f1"
+
+# RESEND_API_KEY is a secret — set it in the dashboard (Settings → Environment variables,
+# encrypted) or via `npx wrangler pages secret put RESEND_API_KEY`. Never commit it.
