@@ -165,7 +165,7 @@ h1,h2,h3,h4{font-family:var(--fd);font-weight:700;line-height:1.1;letter-spacing
 .hero__notice{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.8rem;color:rgba(255,255,255,.45);font-family:var(--fa)}
 .hero__notice i{color:var(--gold);font-size:.75rem}
 .hero__stats{position:absolute;left:0;right:0;bottom:0;background:rgba(10,22,40,.9);backdrop-filter:blur(14px);border-top:1px solid var(--p-bdr);z-index:2}
-@media(min-width:992px){.hero .container{position:relative}.hero__badge{position:absolute;top:0;right:0;margin:0;z-index:3}.hero__inner{padding-top:60px}}
+.hero__main{min-width:0}.hero__side{display:flex;flex-direction:column;gap:14px;align-items:flex-start;margin-top:18px}@media(min-width:992px){.hero__inner{display:flex;gap:48px;align-items:flex-start;max-width:1120px}.hero__main{flex:1}.hero__side{width:290px;flex-shrink:0;align-items:flex-end;text-align:right;margin-top:4px}.hero__btns{justify-content:flex-end}.hero__badge{margin-bottom:0}.hero__notice{margin-top:0}}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);padding:26px 0;gap:20px}
 .stat{text-align:center;position:relative}
 .stat+.stat::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);width:1px;height:60%;background:rgba(255,255,255,.08)}
@@ -420,10 +420,7 @@ html[dir=rtl] .fa-arrow-right{transform:scaleX(-1)}
   <div class="hero__grid-overlay"></div>
   <div class="container">
     <div class="hero__inner">
-      <div class="hero__badge reveal" style="--i:0">
-        <span class="dot"></span>
-        <span data-en="IRATA Certified · Doha, Qatar · Safety First" data-ar="معتمد IRATA · الدوحة، قطر · السلامة أولاً">IRATA Certified · Doha, Qatar · Safety First</span>
-      </div>
+      <div class="hero__main">
       <h1>
         <span class="reveal" style="--i:1;display:block" data-en="Access The" data-ar="الوصول إلى">Access The</span>
         <span class="reveal accent" style="--i:2;display:block" data-en="Inaccessible." data-ar="ما لا يمكن الوصول إليه.">Inaccessible.</span>
@@ -431,6 +428,12 @@ html[dir=rtl] .fa-arrow-right{transform:scaleX(-1)}
       <p class="hero__sub reveal" style="--i:3" data-en="Qatar's IRATA-certified rope access and facade maintenance specialist. One accountable vendor for every job at height — delivered safety-first, across Doha's skyline." data-ar="متخصص معتمد من IRATA في الوصول بالحبال وصيانة الواجهات في قطر. مورّد واحد مسؤول عن كل عمل على الارتفاع، بأسلوب يضع السلامة أولاً في جميع أنحاء أفق الدوحة.">
         Qatar's IRATA-certified rope access and facade maintenance specialist. One accountable vendor for every job at height — delivered safety-first, across Doha's skyline.
       </p>
+      </div>
+      <div class="hero__side">
+      <div class="hero__badge reveal" style="--i:0">
+        <span class="dot"></span>
+        <span data-en="IRATA Certified · Doha, Qatar · Safety First" data-ar="معتمد IRATA · الدوحة، قطر · السلامة أولاً">IRATA Certified · Doha, Qatar · Safety First</span>
+      </div>
       <div class="hero__btns reveal" style="--i:4">
         <a href="#contact" class="btn btn--primary" data-en="Get Free Quote" data-ar="اطلب عرضاً">Get Free Quote <i class="fa-solid fa-arrow-right"></i></a>
         <a href="https://wa.me/97455864070" class="btn btn--wa" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> <span data-en="WhatsApp Us" data-ar="واتساب">WhatsApp Us</span></a>
@@ -439,6 +442,7 @@ html[dir=rtl] .fa-arrow-right{transform:scaleX(-1)}
         <i class="fa-solid fa-phone"></i>
         <span data-en="Call or WhatsApp: +974 5586 4070" data-ar="اتصال أو واتساب: ⁦+974 5586 4070⁩">Call or WhatsApp: +974 5586 4070</span>
       </p>
+      </div>
     </div>
   </div>
   <div class="hero__stats">
