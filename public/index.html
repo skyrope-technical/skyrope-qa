@@ -127,7 +127,7 @@ h1,h2,h3,h4{font-family:var(--fd);font-weight:700;line-height:1.1;letter-spacing
 .nav{position:sticky;top:0;z-index:100;background:var(--dark2);transition:.3s}
 .nav.is-scrolled{background:rgba(39,38,39,.9);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.5)}
 .nav__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 0}
-.nav__logo img{max-height:44px;width:auto;display:block;border-radius:4px;padding:4px 8px;background:var(--white);box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.nav__logo img{max-height:42px;width:auto;display:block}
 .nav__links{display:flex;gap:26px;align-items:center}
 .nav__links a{color:var(--white);font-weight:500;font-size:.95rem;position:relative;padding:6px 0;transition:.2s}
 .nav__links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--p);transition:.25s}
@@ -147,7 +147,7 @@ h1,h2,h3,h4{font-family:var(--fd);font-weight:700;line-height:1.1;letter-spacing
 .mob-overlay.is-open{opacity:1;pointer-events:auto}
 
 /* HERO */
-.hero{position:relative;min-height:calc(100vh - 40px);display:flex;align-items:center;color:var(--white);overflow:hidden;background:var(--navy)}
+.hero{position:relative;min-height:calc(100vh - 104px);display:flex;align-items:center;color:var(--white);overflow:hidden;background:var(--navy)}
 .hero__bg{position:absolute;inset:0;background-image:linear-gradient(135deg,rgba(13,27,46,.92) 0%,rgba(0,154,142,.3) 100%),url('assets/doha-west-bay-skyline.jpg');background-size:cover;background-position:center 30%}
 .skyline-banner{position:relative;height:340px;background-image:linear-gradient(180deg,rgba(10,22,40,.55) 0%,rgba(10,22,40,.88) 100%),url('assets/doha-qimc-tower.jpg');background-size:cover;background-position:center 25%;display:flex;align-items:flex-end;overflow:hidden}
 .skyline-banner__cap{padding:28px 0;color:var(--white)}
@@ -155,16 +155,17 @@ h1,h2,h3,h4{font-family:var(--fd);font-weight:700;line-height:1.1;letter-spacing
 .skyline-banner__cap .t{font-family:var(--fd);font-weight:700;font-size:1.6rem}
 @media(max-width:767px){.skyline-banner{height:240px}}
 .hero__grid-overlay{position:absolute;inset:0;background-image:radial-gradient(rgba(0,154,142,.10) 1px,transparent 1px);background-size:30px 30px;opacity:.7;pointer-events:none}
-.hero__inner{position:relative;z-index:2;padding:80px 0 210px;max-width:820px}
-.hero__badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--fa);font-weight:500;font-size:.78rem;letter-spacing:1.5px;color:var(--p);text-transform:uppercase;padding:8px 18px;border:1px solid var(--p-bdr);border-radius:100px;background:rgba(0,154,142,.08);backdrop-filter:blur(8px);margin-bottom:28px}
+.hero__inner{position:relative;z-index:2;padding:44px 0 128px;max-width:820px}
+.hero__badge{display:inline-flex;align-items:center;gap:10px;font-family:var(--fa);font-weight:500;font-size:.78rem;letter-spacing:1.5px;color:var(--p);text-transform:uppercase;padding:8px 18px;border:1px solid var(--p-bdr);border-radius:100px;background:rgba(0,154,142,.08);backdrop-filter:blur(8px);margin-bottom:18px}
 .hero__badge .dot{width:7px;height:7px;background:var(--p);border-radius:50%;animation:pulse-dot 1.8s ease-in-out infinite}
 @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-.hero h1{font-family:var(--fd);font-weight:800;font-size:clamp(3.2rem,7.5vw,6rem);line-height:.94;margin-bottom:26px;letter-spacing:-.02em}
-.hero__sub{font-size:clamp(1rem,1.5vw,1.2rem);color:var(--muted);max-width:600px;margin-bottom:38px;line-height:1.65}
+.hero h1{font-family:var(--fd);font-weight:800;font-size:clamp(2.8rem,6vw,4.8rem);line-height:.95;margin-bottom:16px;letter-spacing:-.02em}
+.hero__sub{font-size:clamp(1rem,1.5vw,1.15rem);color:var(--muted);max-width:600px;margin-bottom:22px;line-height:1.6}
 .hero__btns{display:flex;gap:14px;flex-wrap:wrap}
-.hero__notice{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:.8rem;color:rgba(255,255,255,.45);font-family:var(--fa)}
+.hero__notice{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:.8rem;color:rgba(255,255,255,.45);font-family:var(--fa)}
 .hero__notice i{color:var(--gold);font-size:.75rem}
 .hero__stats{position:absolute;left:0;right:0;bottom:0;background:rgba(10,22,40,.9);backdrop-filter:blur(14px);border-top:1px solid var(--p-bdr);z-index:2}
+@media(min-width:992px){.hero .container{position:relative}.hero__badge{position:absolute;top:0;right:0;margin:0;z-index:3}.hero__inner{padding-top:60px}}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);padding:26px 0;gap:20px}
 .stat{text-align:center;position:relative}
 .stat+.stat::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);width:1px;height:60%;background:rgba(255,255,255,.08)}
