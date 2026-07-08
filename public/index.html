@@ -1030,6 +1030,8 @@ form.addEventListener('submit',(e)=>{
     document.getElementById('z-description').value='Service: '+form.querySelector('[name=service]').value+'\n\n'+form.querySelector('[name=message]').value.trim()+'\n\n\u2014 Sent from skyrope.qa';
     document.getElementById('zoho-webform').submit();
     if(window.gtag)gtag('event','generate_lead',{method:'quote_form',service:form.querySelector('[name=service]').value});
+    window.dataLayer=window.dataLayer||[];dataLayer.push({event:'form_submission',form_type:'quote',service:form.querySelector('[name=service]').value});
+    history.replaceState(null,'','#enquiry-received');
     form.style.display='none';
     document.getElementById('form-success').classList.add('is-visible');
   }
