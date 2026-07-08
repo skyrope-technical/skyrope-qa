@@ -1031,10 +1031,21 @@ form.addEventListener('submit',(e)=>{
     document.getElementById('zoho-webform').submit();
     if(window.gtag)gtag('event','generate_lead',{method:'quote_form',service:form.querySelector('[name=service]').value});
     window.dataLayer=window.dataLayer||[];dataLayer.push({event:'form_submission',form_type:'quote',service:form.querySelector('[name=service]').value});
-    history.replaceState(null,'','#enquiry-received');
+    history.pushState(null,'','#enquiry-received'); if(window.gtag)gtag('event','page_view',{page_location:location.href,page_title:'Enquiry Received'});
     form.style.display='none';
     document.getElementById('form-success').classList.add('is-visible');
   }
+});
+
+// WhatsApp click -> track as a contact conversion (URL + events)
+document.querySelectorAll('a[href*="wa.me"]').forEach(function(a){
+  a.addEventListener('click',function(){
+    try{
+      history.pushState(null,'','#whatsapp');
+      if(window.gtag){gtag('event','page_view',{page_location:location.href,page_title:'WhatsApp Click'});gtag('event','whatsapp_click',{});}
+      window.dataLayer=window.dataLayer||[];dataLayer.push({event:'whatsapp_click'});
+    }catch(e){}
+  });
 });
 </script>
 </body>
