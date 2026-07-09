@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0d1b2e">
+<meta name="description" content="Skyrope Doha — Contact & Free Quote. IRATA-certified rope access & facade maintenance, Qatar.">
+<title>سكاي روب الدوحة | Skyrope — Contact · Doha, Qatar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body,#root{min-height:100%}
+body{-webkit-font-smoothing:antialiased}
+input:focus,textarea:focus,select:focus{outline:none}
+a,button{-webkit-tap-highlight-color:transparent}
+a{color:#009a8e}
+a:hover{color:#007a70}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .3s ease}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px}
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useRef,useCallback} = React;
+
+const TEAL='#009a8e', TEAL_DK='#007a70', NAVY='#0d1b2e', WA_GREEN='#25D366', WA_DK='#1da851';
+const PHONE='+97455864070', PHONE_FMT='+974 5586 4070';
+const EMAIL_ADR='sales@skyrope.qa';
+const WEB_URL='https://www.skyrope.qa';
+const LOGO_URL='https://skyrope.qa/assets/skyrope-logo-primary.png';
+const MAPS_URL='https://www.google.com/maps?q=West+Bay,+Doha,+Qatar';
+
+const TWEAK_DEFAULTS={
+  "theme": "dark",
+  "accent": "#009a8e"
+};
+
+/* ── Translations ── */
+const LANG = {
+  en: {
+    dir:'ltr',
+    font:"'Manrope',system-ui,sans-serif",
+    heroTag:'IRATA Certified · Doha, Qatar',
+    heroTitle1:'Access The',
+    heroTitle2:'Inaccessible.',
+    heroSub:'Rope access · Facade cleaning · Maintenance at height — one accountable vendor across Doha’s skyline.',
+    qa:['Call','WhatsApp','Email','Map','Website'],
+    c_mobile:'Phone / WhatsApp',
+    c_wa:'WhatsApp',
+    c_email:'Email',
+    c_web:'Website',
+    c_addr:'Office Address',
+    c_addrVal:'Zone 35, Street 232, Building 209 — Floor 2, Room 2, Doha, Qatar',
+    c_area:'Coverage',
+    c_areaVal:'All over Qatar — Doha · Lusail · Al Wakrah · Al Khor · Dukhan · Mesaieed',
+    saveBtn:'Save Contact to Phone',
+    saveDone:'Saved to Contacts!',
+    saveHint:'Downloads a .vcf file — open it to add Skyrope to your contacts',
+    divTitle:'Request a Free Quote',
+    divHint:'Tell us what you need — we’ll reply on WhatsApp with a quote and site-visit slot.',
+    svcLabel:'Service Needed',
+    services:['Facade Cleaning','Rope Access Maintenance','Painting at Height','Sealant & Waterproofing','Glass / Cladding Repair','Banner & Signage Installation','Inspection & Surveys','Manpower Supply — Oil & Gas','Other'],
+    bldgLabel:'Building / Location',
+    bldgPh:'e.g. Tornado Tower, West Bay',
+    noteLabel:'Notes (optional)',
+    notePh:'Floors, scope, timing…',
+    waBtn:'Send Request on WhatsApp',
+    waMsg:(svc,bldg,note)=>`Hi Skyrope, I'd like a free quote.\n\nService: ${svc}${bldg?`\nBuilding / Location: ${bldg}`:''}${note?`\nNotes: ${note}`:''}\n\nPlease contact me with availability.`,
+    qrHint:'Scan to open this page on your phone',
+    footer1:'Skyrope · Doha, Qatar',
+    footer2:'IRATA-Certified Rope Access · Safety First',
+  },
+  ar: {
+    dir:'rtl',
+    font:"'Noto Sans Arabic',Tahoma,sans-serif",
+    heroTag:'معتمد IRATA · الدوحة، قطر',
+    heroTitle1:'الوصول إلى',
+    heroTitle2:'ما لا يمكن الوصول إليه.',
+    heroSub:'الوصول بالحبال · تنظيف الواجهات · الصيانة على الارتفاعات — مورّد واحد مسؤول عبر أفق الدوحة.',
+    qa:['اتصال','واتساب','بريد','خريطة','الموقع'],
+    c_mobile:'الهاتف / واتساب',
+    c_wa:'واتساب',
+    c_email:'البريد الإلكتروني',
+    c_web:'الموقع الإلكتروني',
+    c_addr:'عنوان المكتب',
+    c_addrVal:'منطقة 35، شارع 232، مبنى 209 — الطابق 2، مكتب 2، الدوحة، قطر',
+    c_area:'مناطق التغطية',
+    c_areaVal:'جميع أنحاء قطر — الدوحة · لوسيل · الوكرة · الخور · دخان · مسيعيد',
+    saveBtn:'حفظ جهة الاتصال في الهاتف',
+    saveDone:'تم الحفظ!',
+    saveHint:'يحمّل ملف .vcf — افتحه لإضافة سكاي روب لجهات اتصالك',
+    divTitle:'اطلب عرض سعر مجاني',
+    divHint:'أخبرنا بما تحتاجه — سنرد عبر واتساب بعرض سعر وموعد زيارة الموقع.',
+    svcLabel:'الخدمة المطلوبة',
+    services:['تنظيف الواجهات','صيانة بالوصول الحبلي','الطلاء على الارتفاعات','العزل ومواد الإغلاق','إصلاح الزجاج / الكسوة','تركيب اللافتات والإعلانات','الفحص والمعاينة','توفير العمالة — النفط والغاز','أخرى'],
+    bldgLabel:'المبنى / الموقع',
+    bldgPh:'مثال: برج تورنادو، الخليج الغربي',
+    noteLabel:'ملاحظات (اختياري)',
+    notePh:'الطوابق، نطاق العمل، التوقيت…',
+    waBtn:'أرسل الطلب عبر واتساب',
+    waMsg:(svc,bldg,note)=>`السلام عليكم سكاي روب،\nأرغب بعرض سعر مجاني.\n\nالخدمة: ${svc}${bldg?`\nالمبنى / الموقع: ${bldg}`:''}${note?`\nملاحظات: ${note}`:''}\n\nأرجو التواصل معي.`,
+    qrHint:'امسح الرمز لفتح هذه الصفحة على هاتفك',
+    footer1:'سكاي روب · الدوحة، قطر',
+    footer2:'وصول حبلي معتمد من IRATA · السلامة أولاً',
+  }
+};
+
+/* ── Helpers ── */
+function makeVCard(){
+  return['BEGIN:VCARD','VERSION:3.0',
+    'FN:Skyrope Doha','ORG:Skyrope',
+    'TITLE:Rope Access & Facade Maintenance',
+    `TEL;TYPE=CELL:${PHONE}`,
+    `EMAIL;TYPE=WORK:${EMAIL_ADR}`,`URL:${WEB_URL}`,
+    'ADR;TYPE=WORK:;;Zone 35\\, Street 232\\, Building 209\\, Floor 2\\, Room 2;Doha;;;Qatar',
+    'NOTE:IRATA-certified rope access · facade cleaning · maintenance at height · Doha Qatar',
+    'END:VCARD'].join('\r\n');
+}
+function triggerDownload(content,mime,filename){
+  const blob=new Blob([content],{type:mime});
+  const url=URL.createObjectURL(blob);
+  const a=Object.assign(document.createElement('a'),{href:url,download:filename});
+  document.body.appendChild(a);a.click();
+  setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},600);
+}
+function drawQR(el,text,dark){
+  if(!el||!text)return;
+  el.innerHTML='';
+  try{new QRCode(el,{text,width:150,height:150,colorDark:'#0d1b2e',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}catch(e){}
+}
+
+/* ── Icons ── */
+const Svg=({size=18,children,...p})=>(
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>{children}</svg>
+);
+const IPhone =()=><Svg stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></Svg>;
+const IMail  =()=><Svg stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></Svg>;
+const IGlobe =()=><Svg stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20 15.3 15.3 0 0 1 0-20Z"/></Svg>;
+const IPin   =()=><Svg stroke="currentColor"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></Svg>;
+const ICheck =({c})=><Svg stroke={c||"currentColor"}><polyline points="20 6 9 17 4 12"/></Svg>;
+const IWA    =()=><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.9c0 1.76.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.91-4.45 9.91-9.9 0-2.66-1.03-5.15-2.9-7.02A9.82 9.82 0 0 0 12.04 2Zm5.8 14c-.24.69-1.42 1.32-1.96 1.36-.5.04-.96.2-3.23-.67-2.72-1.07-4.46-3.84-4.6-4.02-.13-.18-1.1-1.47-1.1-2.8 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47.23.55.78 1.9.85 2.04.07.13.11.3.02.48-.46.92-.95.88-.7 1.31.93 1.6 1.86 2.16 3.28 2.87.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.31-.2.53-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.27Z"/></svg>;
+const ISave  =()=><Svg><path stroke="currentColor" d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline stroke="currentColor" points="17 21 17 13 7 13 7 21"/><polyline stroke="currentColor" points="7 3 7 8 15 8"/></Svg>;
+const IShield=()=><Svg stroke="currentColor" size={14}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></Svg>;
+
+/* ═══════ APP ═══════ */
+function App(){
+  const t=TWEAK_DEFAULTS;
+  const dark  = t.theme==='dark';
+  const accent= t.accent||TEAL;
+
+  const [lang,setLang]   = useState('en');
+  const [svc,setSvc]     = useState('');
+  const [bldg,setBldg]   = useState('');
+  const [note,setNote]   = useState('');
+  const [vcSaved,setVcSaved]=useState(false);
+  const qrRef = useRef(null);
+
+  const ar = lang==='ar';
+  const TX = LANG[lang];
+
+  useEffect(()=>{
+    const savedLang=localStorage.getItem('skyropeLang');
+    if(savedLang==='ar') setLang('ar');
+  },[]);
+  useEffect(()=>{ drawQR(qrRef.current,WEB_URL); },[dark]);
+
+  const switchLang=l=>{ setLang(l); localStorage.setItem('skyropeLang',l); };
+  const saveVCard =()=>{
+    triggerDownload(makeVCard(),'text/vcard','Skyrope-Doha.vcf');
+    setVcSaved(true);setTimeout(()=>setVcSaved(false),2400);
+  };
+
+  const svcVal=svc||TX.services[0];
+  const waMsg =TX.waMsg(svcVal,bldg.trim(),note.trim());
+  const waLink=`https://wa.me/${PHONE.replace('+','')}?text=${encodeURIComponent(waMsg)}`;
+
+  /* ── theme ── */
+  const bg     = dark?`linear-gradient(160deg,#0d1b2e 0%,#122435 55%,#0a141f 100%)`:'#f0f3f4';
+  const clr    = dark?'#fff':'#12212e';
+  const lbl    = dark?'rgba(255,255,255,.5)':'#5d6b76';
+  const muted  = dark?'rgba(255,255,255,.42)':'#8a97a1';
+  const divC   = dark?'rgba(255,255,255,.09)':'#dfe5e8';
+  const cardBg = dark?'rgba(255,255,255,.06)':'#fff';
+  const cardBd = dark?'rgba(255,255,255,.11)':'#dfe5e8';
+  const cardSh = dark?'none':'0 2px 20px rgba(13,27,46,.08)';
+  const inputBg= dark?'rgba(255,255,255,.07)':'#fff';
+  const inputBd= dark?'rgba(255,255,255,.18)':'#cfd7dc';
+  const logoSrc= LOGO_URL;
+
+  const card  ={background:cardBg,border:`1px solid ${cardBd}`,borderRadius:16,boxShadow:cardSh};
+  const px    ={padding:'0 20px'};
+  const mt    =n=>({marginTop:n});
+  const icoBox=c=>({width:36,height:36,borderRadius:10,background:`${c}1e`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,color:c});
+  const field ={width:'100%',background:inputBg,border:`1.5px solid ${inputBd}`,borderRadius:11,padding:'12px 14px',fontSize:14,color:clr,fontFamily:TX.font};
+  const fLbl  ={display:'block',fontSize:10.5,fontWeight:700,letterSpacing:ar?'0.02em':'0.12em',textTransform:ar?'none':'uppercase',color:lbl,marginBottom:6};
+
+  const contacts=[
+    {icon:<IPhone/>, lbl:TX.c_mobile, val:PHONE_FMT,       href:`tel:${PHONE}`,        ac:accent},
+    {icon:<IWA/>,    lbl:TX.c_wa,     val:PHONE_FMT,       href:`https://wa.me/${PHONE.replace('+','')}`, ac:WA_GREEN},
+    {icon:<IMail/>,  lbl:TX.c_email,  val:EMAIL_ADR,       href:`mailto:${EMAIL_ADR}`, ac:accent},
+    {icon:<IGlobe/>, lbl:TX.c_web,    val:'www.skyrope.qa',href:WEB_URL,               ac:accent},
+    {icon:<IPin/>,   lbl:TX.c_addr,   val:TX.c_addrVal,    href:MAPS_URL,              ac:'#E74C3C'},
+  ];
+  const qaLinks=[
+    {href:`tel:${PHONE}`,                           bg:'#4A90E2', ico:<IPhone/>},
+    {href:`https://wa.me/${PHONE.replace('+','')}`, bg:WA_GREEN,  ico:<IWA/>},
+    {href:`mailto:${EMAIL_ADR}`,                    bg:accent,    ico:<IMail/>},
+    {href:MAPS_URL,                                 bg:'#E74C3C', ico:<IPin/>},
+    {href:WEB_URL,                                  bg:NAVY===accent?'#4A90E2':'#7A8CA0', ico:<IGlobe/>},
+  ];
+
+  return(
+  <div dir={TX.dir} style={{minHeight:'100vh',background:bg,color:clr,fontFamily:TX.font,WebkitFontSmoothing:'antialiased'}}>
+
+    <style>{`select option{background:${dark?'#12212e':'#fff'};color:${dark?'#fff':'#12212e'}}`}</style>
+    {/* bg deco */}
+    {dark&&<div style={{position:'fixed',top:0,[ar?'left':'right']:'-12%',width:'42%',height:'100vh',background:`linear-gradient(150deg,${accent},${TEAL_DK})`,transform:'skewX(-13deg)',clipPath:ar?'polygon(0 0,44% 0,78% 100%,0 100%)':'polygon(56% 0,100% 0,100% 100%,22% 100%)',opacity:.12,pointerEvents:'none',zIndex:0}}></div>}
+    {dark&&<div style={{position:'fixed',inset:0,pointerEvents:'none',zIndex:0,opacity:.25,backgroundImage:'radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px)',backgroundSize:'30px 30px',WebkitMaskImage:'linear-gradient(110deg,#000 20%,transparent 72%)',maskImage:'linear-gradient(110deg,#000 20%,transparent 72%)'}}></div>}
+
+    <div style={{position:'relative',zIndex:1,maxWidth:430,margin:'0 auto',paddingBottom:60}}>
+
+      {/* ── HEADER ── */}
+      <div style={{...px,paddingTop:26,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+        <a href={WEB_URL} target="_blank" rel="noopener noreferrer" style={{display:'block',lineHeight:0,background:dark?'#fff':'transparent',padding:dark?'7px 12px':0,borderRadius:dark?10:0}}>
+          <img src={logoSrc} alt="Skyrope" style={{height:34,width:'auto',display:'block'}} />
+        </a>
+        <div style={{display:'flex',gap:4,background:dark?'rgba(255,255,255,.09)':'#e4e9ec',borderRadius:10,padding:3}}>
+          {['en','ar'].map(l=>(
+            <button key={l} onClick={()=>switchLang(l)} style={{
+              padding:'5px 14px',borderRadius:7,border:'none',cursor:'pointer',
+              fontSize:12,fontWeight:700,letterSpacing:'0.06em',
+              background:lang===l?(dark?'rgba(255,255,255,.18)':'#fff'):'transparent',
+              color:lang===l?clr:muted,
+              boxShadow:lang===l?(dark?'0 1px 4px rgba(0,0,0,.3)':'0 1px 4px rgba(0,0,0,.1)'):'none',
+              transition:'all .18s',
+              fontFamily:l==='ar'?"'Noto Sans Arabic',sans-serif":"'Manrope',sans-serif",
+            }}>
+              {l==='en'?'EN':'ع'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── HERO ── */}
+      <div style={{...px,...mt(18)}}>
+        <h1 style={{fontFamily:ar?TX.font:"'Barlow Condensed',sans-serif",fontWeight:900,fontSize:ar?'clamp(17px,5.6vw,24px)':'clamp(19px,6.4vw,28px)',whiteSpace:'nowrap',lineHeight:1.15,textTransform:ar?'none':'uppercase',letterSpacing:'.01em',marginBottom:7}}>
+          {TX.heroTitle1} <span style={{color:accent}}>{TX.heroTitle2}</span>
+        </h1>
+        <p style={{fontSize:12.5,color:muted,lineHeight:1.6}}>{TX.heroSub}</p>
+      </div>
+
+      {/* ── QUICK ACTIONS ── */}
+      <div style={{...px,...mt(18)}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:10}}>
+          {qaLinks.map(({href,bg:c,ico},i)=>(
+            <a key={i} href={href} target={href.startsWith('http')?'_blank':undefined} rel="noopener noreferrer"
+              style={{display:'flex',flexDirection:'column',alignItems:'center',gap:7,background:cardBg,border:`1px solid ${cardBd}`,borderRadius:14,padding:'13px 6px 11px',color:clr,textDecoration:'none',boxShadow:cardSh}}>
+              <span style={{width:38,height:38,borderRadius:11,background:`${c}22`,display:'flex',alignItems:'center',justifyContent:'center',color:c}}>{ico}</span>
+              <span style={{fontSize:10.5,fontWeight:600,letterSpacing:'.01em'}}>{TX.qa[i]}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ── CONTACT DETAILS ── */}
+      <div style={{...px,...mt(14)}}>
+        <div style={{...card,padding:'6px 0'}}>
+          {contacts.map(({icon,lbl:rowLbl,val,href,ac},i)=>(
+            <React.Fragment key={i}>
+              {i>0&&<div style={{height:1,background:divC,margin:'0 16px'}}></div>}
+              <a href={href} target={href.startsWith('http')?'_blank':undefined} rel="noopener noreferrer"
+                style={{display:'flex',alignItems:'flex-start',gap:12,color:clr,textDecoration:'none',padding:'13px 16px'}}>
+                <span style={icoBox(ac)}>{icon}</span>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:ar?'0.02em':'0.14em',textTransform:ar?'none':'uppercase',color:lbl,marginBottom:3}}>{rowLbl}</div>
+                  <div style={{fontSize:13.5,fontWeight:500,lineHeight:1.4,direction:'ltr',textAlign:ar?'right':'left'}}>{val}</div>
+                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={muted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginTop:4,flexShrink:0,transform:ar?'scaleX(-1)':'none'}}><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+            </React.Fragment>
+          ))}
+          {/* coverage row (not a link) */}
+          <div style={{height:1,background:divC,margin:'0 16px'}}></div>
+          <div style={{display:'flex',alignItems:'flex-start',gap:12,padding:'13px 16px'}}>
+            <span style={icoBox(accent)}><IGlobe/></span>
+            <div style={{flex:1}}>
+              <div style={{fontSize:10,fontWeight:700,letterSpacing:ar?'0.02em':'0.14em',textTransform:ar?'none':'uppercase',color:lbl,marginBottom:3}}>{TX.c_area}</div>
+              <div style={{fontSize:12.5,fontWeight:500,lineHeight:1.5,color:muted}}>{TX.c_areaVal}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── SAVE TO CONTACTS ── */}
+      <div style={{...px,...mt(12)}}>
+        <button onClick={saveVCard} style={{
+          width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:10,
+          background:vcSaved?`${WA_DK}22`:`${accent}18`,
+          border:`1.5px solid ${vcSaved?WA_DK:accent}`,
+          borderRadius:13,padding:'14px 20px',
+          color:vcSaved?WA_DK:accent,fontSize:14,fontWeight:700,cursor:'pointer',
+          transition:'all .2s',letterSpacing:ar?'.02em':'.01em',fontFamily:TX.font,
+        }}>
+          {vcSaved?<ICheck c={WA_DK}/>:<ISave/>}
+          {vcSaved?TX.saveDone:TX.saveBtn}
+        </button>
+        <p style={{textAlign:'center',fontSize:11,color:muted,marginTop:7}}>{TX.saveHint}</p>
+      </div>
+
+      {/* ── REQUEST A QUOTE ── */}
+      <div style={{...px,...mt(26)}}>
+        <h2 style={{fontFamily:ar?TX.font:"'Barlow Condensed',sans-serif",fontWeight:800,fontSize:ar?20:23,textTransform:ar?'none':'uppercase',letterSpacing:'.02em',marginBottom:5}}>{TX.divTitle}</h2>
+        <p style={{fontSize:12.5,color:muted,lineHeight:1.6,marginBottom:14}}>{TX.divHint}</p>
+
+        <div style={{...card,padding:18,display:'flex',flexDirection:'column',gap:14}}>
+          <div>
+            <label style={fLbl}>{TX.svcLabel}</label>
+            <select value={svcVal} onChange={e=>setSvc(e.target.value)} style={{...field,appearance:'none',backgroundImage:`url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23888' d='M0 0h10L5 6z'/></svg>")`,backgroundRepeat:'no-repeat',backgroundPosition:ar?'left 12px center':'right 12px center'}}>
+              {TX.services.map(s=><option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
+          <div>
+            <label style={fLbl}>{TX.bldgLabel}</label>
+            <input type="text" value={bldg} placeholder={TX.bldgPh} onChange={e=>setBldg(e.target.value)} style={field} />
+          </div>
+          <div>
+            <label style={fLbl}>{TX.noteLabel}</label>
+            <textarea value={note} placeholder={TX.notePh} rows={3} onChange={e=>setNote(e.target.value)} style={{...field,resize:'vertical',minHeight:70}}></textarea>
+          </div>
+          <a href={waLink} target="_blank" rel="noopener noreferrer" style={{
+            display:'flex',alignItems:'center',justifyContent:'center',gap:10,
+            background:WA_GREEN,border:'none',borderRadius:13,padding:'15px 20px',
+            color:'#fff',fontSize:14.5,fontWeight:700,textDecoration:'none',
+            letterSpacing:ar?'.02em':'.01em',boxShadow:'0 6px 18px rgba(37,211,102,.3)',
+          }}>
+            <IWA/>{TX.waBtn}
+          </a>
+        </div>
+      </div>
+
+      {/* ── QR ── */}
+      <div style={{...px,...mt(24),display:'flex',flexDirection:'column',alignItems:'center',gap:9}}>
+        <div style={{background:'#fff',padding:10,borderRadius:14,boxShadow:dark?'0 4px 24px rgba(0,0,0,.35)':'0 2px 16px rgba(13,27,46,.1)',lineHeight:0}}>
+          <div ref={qrRef}></div>
+        </div>
+        <p style={{fontSize:11,color:muted}}>{TX.qrHint}</p>
+      </div>
+
+      {/* ── FOOTER ── */}
+      <div style={{...px,marginTop:28,textAlign:'center'}}>
+        <div style={{height:1,background:divC,marginBottom:20}}></div>
+        <p style={{fontSize:ar?12:9.5,fontWeight:600,color:muted,letterSpacing:ar?'0.02em':'0.14em',lineHeight:1.9,textTransform:ar?'none':'uppercase'}}>
+          {TX.footer1}<br />{TX.footer2}
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+  );
+}
+
+const skyRoot=ReactDOM.createRoot(document.getElementById('root'));
+skyRoot.render(<App/>);
+</script>
+
+</body>
+</html>
