@@ -177,7 +177,16 @@ function App(){
 
   const switchLang=l=>{ setLang(l); localStorage.setItem('skyropeLang',l); };
   const saveVCard =()=>{
-    triggerDownload(makeVCard(),'text/vcard','Skyrope-Doha.vcf');
+    // On a phone, NAVIGATING to the hosted .vcf (served as text/vcard, inline)
+    // makes iOS/Android hand it to the Contacts app and show the Add-Contact
+    // screen. Using a `download` attribute would instead force a silent save —
+    // which is why desktop just downloads the file. Locally (file://) there is
+    // no server, so build the file in-page as a fallback.
+    if(location.protocol==='file:'){
+      triggerDownload(makeVCard(),'text/vcard','Skyrope-Doha.vcf');
+    } else {
+      window.location.href='skyrope.vcf';
+    }
     setVcSaved(true);setTimeout(()=>setVcSaved(false),2400);
   };
 
